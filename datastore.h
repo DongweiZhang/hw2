@@ -2,6 +2,7 @@
 #define DATASTORE_H
 #include <string>
 #include <set>
+#include <map>
 #include <vector>
 #include "product.h"
 #include "user.h"

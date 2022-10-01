@@ -12,13 +12,15 @@
  */
 
 template <typename T>
+
+// Find Intersection for AND Search 
 std::set<T> setIntersection(std::set<T>& s1, std::set<T>& s2)
 {
     std::set<T> ret;
 
-    typename std::set<T>::iterator it1 = s1.begin();
-    typename std::set<T>::iterator it2 = s2.begin();
-    while (it1 < s1.end() && it2 < s2.end()) {
+    auto it1 = s1.begin();
+    auto it2 = s2.begin();
+    while (it1 != s1.end() && it2 != s2.end()) {
         if (*it1 < *it2){
             ++it1;
         } else if (*it1 > *it2){
@@ -33,19 +35,47 @@ std::set<T> setIntersection(std::set<T>& s1, std::set<T>& s2)
 }
 
 template <typename T>
+//Find Union for OR Search
 std::set<T> setUnion(std::set<T>& s1, std::set<T>& s2)
 {
     std::set<T> ret;
 
-    typename std::set<T>::iterator it1 = s1.begin();
-    for(it1; it1 != s1.end(); ++it1) {
-        ret.insert(*it1);
+//    auto it1 = s1.begin();
+//    for(it1; it1 != s1.end(); ++it1) {
+//        ret.insert(*it1);
+//    }
+//
+//    auto it2 = s2.begin();
+//    for(it2; it2 != s2.end(); ++it2) {
+//        ret.insert(*it2);
+//    }
+
+    auto it1 = s1.begin();
+    auto it2 = s2.begin();
+    while (it1 != s1.end() && it2 != s2.end()) {
+        if (*it1 < *it2){
+            ret.insert(*it1);
+            ++it1;
+        } else if (*it1 > *it2){
+            ret.insert(*it2);
+            ++it2;
+        } else if(*it1 == *it2) {
+            ret.insert(*it1);
+            ++it1;
+            ++it2;
+        }
     }
 
-    typename std::set<T>::iterator it2 = s2.begin();
-    for(it2; it2 != s2.end(); ++it2) {
-        ret.insert(*it2);
+    while (it1 != s1.end()) {
+        ret.insert(*it1);
+        ++it1;
     }
+
+    while (it2 != s2.end()) {
+        ret.insert(*it2);
+        ++it2;
+    }
+
     return ret;
 }
 

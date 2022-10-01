@@ -1,6 +1,12 @@
 #ifndef HW2_CLOTHING_H
 #define HW2_CLOTHING_H
 
+/**
+ * Implement all functions and properties of clothings
+ *  Clothing's constructor and deconstructor
+ *  Clothings' information and display method
+ */
+
 #include "product.h"
 
 class Clothing : public Product{
@@ -21,6 +27,8 @@ private:
     std::string size_;
     std::string brand_;
     std::set<std::string> keywords_;
+
+
 };
 
 #endif //HW2_CLOTHING_H

@@ -1,6 +1,11 @@
 #ifndef HW2_BOOK_H
 #define HW2_BOOK_H
 
+/**
+ * Implement all functions and properties of books
+ *  Book's constructor and deconstructor
+ *  Books' information and display method
+ */
 #include "product.h"
 
 class Book : public Product {

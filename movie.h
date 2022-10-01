@@ -1,6 +1,10 @@
 #ifndef HW2_MOVIE_H
 #define HW2_MOVIE_H
-
+/**
+ * Implement all functions and properties of movies
+ *  Movie's constructor and deconstructor
+ *  Movies' information and display method
+ */
 #include "product.h"
 
 class Movie : public Product{

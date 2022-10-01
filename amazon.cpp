@@ -1,15 +1,15 @@
 #include <iostream>
 #include <fstream>
-#include <set>
 #include <sstream>
-#include <vector>
+#include <queue>
 #include <iomanip>
-#include <algorithm>
+#include <vector>
 #include "product.h"
 #include "db_parser.h"
 #include "product_parser.h"
 #include "util.h"
-#include "my_database.h"
+#include "mydatastore.h"
+
 
 using namespace std;
 struct ProdNameSorter {
@@ -26,14 +26,13 @@ int main(int argc, char* argv[])
         return 1;
     }
 
+    std::cout << argv[0] << std::endl;
+    std::cout << argv[1] << std::endl;
     /****************
      * Declare your derived DataStore object here replacing
      *  DataStore type to your derived type
      ****************/
-    //DataStore ds;
-    MyDatabase ds;
-
-
+    MyDataStore ds;
 
     // Instantiate the individual section and product parsers we want
     ProductSectionParser* productSectionParser = new ProductSectionParser;
@@ -101,11 +100,44 @@ int main(int argc, char* argv[])
                 }
                 done = true;
             }
-	    /* Add support for other commands here */
-
-
-
-
+            else if ( cmd == "ADD") {
+                string userName;
+                ss >> userName;
+                int hitIndex;
+                ss >> hitIndex;
+                User *user = ds.getUser(userName);
+                if (user == nullptr || hitIndex > hits.size()) {
+                    cout << "Invalid request" << endl;
+                } else {
+                    Product *Product = hits[hitIndex - 1];
+                    ds.addCarts(user, Product);
+                    cout << "ADD success" << endl;
+                }
+            }
+            else if ( cmd == "VIEWCART") {
+                string userName;
+                if(ss >> userName) {
+                    User *user = ds.getUser(userName);
+                    if (user == nullptr) {
+                        cout << "Invalid username" << endl;
+                    } else {
+                        hits = ds.getCarts(userName);
+                        displayProducts(hits);
+                    }
+                }
+            }
+            else if ( cmd == "BUYCART") {
+                string userName;
+                if(ss >> userName) {
+                    User *user = ds.getUser(userName);
+                    if (user == nullptr) {
+                        cout << "Invalid username" << endl;
+                    } else {
+                        ds.buyingCarts(user);
+                        cout << "BUYCART success" << endl;
+                    }
+                }
+            }
             else {
                 cout << "Unknown command" << endl;
             }
@@ -123,6 +155,7 @@ void displayProducts(vector<Product*>& hits)
     	return;
     }
     std::sort(hits.begin(), hits.end(), ProdNameSorter());
+
     for(vector<Product*>::iterator it = hits.begin(); it != hits.end(); ++it) {
         cout << "Hit " << setw(3) << resultNo << endl;
         cout << (*it)->displayString() << endl;
