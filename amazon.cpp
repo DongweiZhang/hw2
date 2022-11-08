@@ -26,8 +26,7 @@ int main(int argc, char* argv[])
         return 1;
     }
 
-    std::cout << argv[0] << std::endl;
-    std::cout << argv[1] << std::endl;
+    
     /****************
      * Declare your derived DataStore object here replacing
      *  DataStore type to your derived type
@@ -111,7 +110,7 @@ int main(int argc, char* argv[])
                 } else {
                     Product *Product = hits[hitIndex - 1];
                     ds.addCarts(user, Product);
-                    cout << "ADD success" << endl;
+                    //cout << "ADD success" << endl;
                 }
             }
             else if ( cmd == "VIEWCART") {
@@ -122,7 +121,14 @@ int main(int argc, char* argv[])
                         cout << "Invalid username" << endl;
                     } else {
                         hits = ds.getCarts(userName);
-                        displayProducts(hits);
+                        //displayProducts(hits);
+												int resultNo = 1;
+                        for(vector<Product*>::iterator it = hits.begin(); it != hits.end(); ++it) {
+                            cout << "Hit " << setw(3) << resultNo << endl;
+                            cout << (*it)->displayString() << endl;
+                            cout << endl;
+                            resultNo++;
+                        }
                     }
                 }
             }
